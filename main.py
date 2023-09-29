@@ -4,12 +4,16 @@ app = FastAPI()
 
 
 @app.get("/")
-def read_root():
+async def read_root():
+
     return {"Hello": "World"}
 
+@app.get("/v1/contactos")
+async def get_contactos():
+    response= []
+    return response
+    
 
-@app.get("/personas")
-def get_personas ():
-    return {"id":1, "nombre" : "Dejah"}
-
-git add . 
+git add .
+git commit -m "Commit"
+git push -u origin.main
