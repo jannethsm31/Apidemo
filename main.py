@@ -52,3 +52,9 @@ def add_contactos(post: Post):
         row = post.model_dump()
         writer.writerow(row)
     return row, {"datetime": datetime.now()}
+
+    """
+    que en el elemento get muestre todos los registros que contengan ese nombre, una busqueda por nombre con query params o path params
+
+    """
+    
