@@ -1,6 +1,6 @@
 from pydantic import EmailStr, BaseModel
 from datetime import datetime
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, Query, HTTPException
 import csv
 
 app = FastAPI()
@@ -19,7 +19,10 @@ def read_root():
     return {'Hello':'World'}
     
 @app.get("/v1/contactos", status_code=status.HTTP_200_OK, summary="Endpoint para listar datos")
-def get_contactos():
+def get_contactos(
+    nombre: str = Query(None, description="Filtrado por nombre")
+):
+    
     """
     # Endpoint para obtener datos de la API
 
@@ -30,7 +33,8 @@ def get_contactos():
     with open('contactos.csv', 'r') as file:
         lector = csv.DictReader(file)
         for row in lector:
-            datos.append(row)
+            if (nombre is None or row["nombre"] == nombre):
+                datos.append(row)
     return datos
 
 @app.post("/v1/contactos", status_code=status.HTTP_201_CREATED, summary="Endpoint para enviar datos")
@@ -52,9 +56,4 @@ def add_contactos(post: Post):
         row = post.model_dump()
         writer.writerow(row)
     return row, {"datetime": datetime.now()}
-
-    """
-    que en el elemento get muestre todos los registros que contengan ese nombre, una busqueda por nombre con query params o path params
-
-    """
     
